@@ -1,0 +1,6 @@
+{
+  "ignore": ["node_modules", "public"],
+  "execMap": {
+    "js": "iojs --harmony_arrow_functions --harmony"
+  }
+}
