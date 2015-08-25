@@ -1,4 +1,12 @@
 requirejs.config({
+  shim: {
+    'bootstrap': {
+        deps: ['jquery']
+    },
+    pager: {
+      deps: ['jquery', 'knockout']
+    }
+  },
   paths: {
     bluebird: '../bower_components/bluebird/js/browser/bluebird.min',
     jquery: '../bower_components/jquery/dist/jquery.min',
@@ -6,7 +14,7 @@ requirejs.config({
     knockout: '../bower_components/knockout/dist/knockout',
     ko_mapping: '../bower_components/knockout-mapping/build/output/knockout.mapping-latest',
     pager: '../bower_components/pagerjs/dist/pager.min',
-    domReady: '../bower_components/requirejs-domready/domready',
+    domReady: '../bower_components/requirejs-domready/domReady',
     main: './index'
   }
 })
