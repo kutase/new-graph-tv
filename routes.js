@@ -11,4 +11,7 @@ router.route('/')
 router.route('/find_tv')
 .post(controller.find_tv)
 
+router.route('/get_ratings/:id')
+.get(controller.get_ratings)
+
 module.exports = router;

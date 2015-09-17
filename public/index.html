@@ -53,21 +53,26 @@
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search for TV series" data-bind="textInput: search_tv_text, event: {input: search_tv}">
-              <!-- ko if: has_tv_info -->
-                <div class="list-group find-res">
+              <input type="text" class="form-control" placeholder="Search for TV series" data-bind="textInput: search_tv_text, event: {input: search_tv}, hasFocus: tv_info_focus">
+              <!-- ko if: can_watch_info -->
+                <div class="list-group find-res" data-bind="event: {mouseover: enableHover, mouseout: disableHover}">
                   <div class="list-group-item">
                     <span class="find-res-title" data-bind="text: search_tv_info().Title"></span>
                   </div>
                   <div class="list-group-item">
-                    <strong>Imdb id:</strong> <a data-bind="attr: {href: search_tv_info().imdbHref}"><span data-bind="text: search_tv_info().imdbID"></span></a>
+                    <strong>imdb id:</strong> <a data-bind="attr: {href: search_tv_info().imdbHref}"><span data-bind="text: search_tv_info().imdbID"></span></a>
                   </div>
                   <div class="list-group-item">
-                    <p style="width: 200px" data-bind="text: search_tv_info().Plot"></p>
+                    <p class="find-res-desc" data-bind="text: search_tv_info().Plot"></p>
                   </div>
                   <div class="list-group-item">
-                    <p><img class="find-res-img" data-bind="attr: {src: search_tv_info().Poster}"></p>
-                    <p><a data-bind="click: " class="btn btn-info " role="button">Watch series rating <i class="fa fa-hand-o-right"></i></a></p>
+                    <strong>List of episodes:</strong> <a data-bind="attr: {href: search_tv_info().wikiPage}">Wikipedia</a> and <a data-bind="attr: {href: search_tv_info().imdbEpisodes}">imdb</a>
+                  </div>
+                  <div class="list-group-item">
+                    <div class="find-res-img-div">
+                      <p><img class="find-res-img" data-bind="attr: {src: search_tv_info().Poster}"></p>
+                    </div>
+                    <p><a data-bind="click: see_ratings" class="btn btn-info " role="button">Watch series rating<i class="fa fa-hand-o-right"></i></a></p>
                   </div>
                 </div>
               <!-- /ko -->
@@ -77,6 +82,21 @@
       </div>
     </nav>
 
-    <script src="bower_components/requirejs/require.js" data-main="js/config"></script>
+    <div class="container">
+      <div data-bind="page: {id: 'ratings', title: 'TV Ratings'}" style="display:none;">
+        <div data-bind="page: {id: '?', nameParam: search_tv_info().imdbID, sourceOnShow: 'ratings.html'}"></div>
+      </div>
+    </div>
+
+    <script src="bower_components/bluebird/js/browser/bluebird.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="lib/highcharts.js"></script>
+    <script src="lib/modules/exporting.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/knockout/dist/knockout.js"></script>
+    <script src="bower_components/knockout-mapping/build/output/knockout.mapping-latest.js"></script>
+    <script src="bower_components/pagerjs/dist/pager.min.js"></script>
+    <script src="js/customBindings.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

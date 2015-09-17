@@ -1,7 +1,10 @@
 var express = require('express'),
     app = express(),
     http = require('http').Server(app),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    configureDB = require('./models/settings');
+
+configureDB();
 
 var router = require('./routes');
 

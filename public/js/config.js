@@ -19,11 +19,11 @@ requirejs.config({
   }
 })
 
-requirejs(['jquery', 'knockout','ko_mapping', 'main', 'pager', 'bootstrap', 'domReady'], function ($, ko, ko_mapping, main) {
+requirejs(['jquery', 'knockout','ko_mapping', 'main', 'pager', 'bootstrap', 'domReady'], function ($, ko, ko_mapping, main, pager) {
   ko.mapping = ko_mapping;
-
-  window.main = new main(); // For debugging
-  
-  ko.applyBindings(main);
-
+  pager.Href.hash = '#!/';
+  var main = new main(); // For debugging
+  pager.extendWithPage(main);
+  ko.applyBindings(main, document.body);
+  pager.start();
 })
