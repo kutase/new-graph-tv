@@ -82,9 +82,12 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div style="margin-top:51px;">
       <div data-bind="page: {id: 'ratings', title: 'TV Ratings'}" style="display:none;">
-        <div data-bind="page: {id: '?', nameParam: search_tv_info().imdbID, sourceOnShow: 'ratings.html'}"></div>
+        <!-- ko if: (isLoading() == 'pending') -->
+          <div style="font-size: 100pt;">Loading!</div>
+        <!-- /ko -->
+        <div data-bind="page: {id: '?', sourceOnShow: 'ratings.html', beforeShow: beforeShow.showRatings, fx: 'fade'}"></div>
       </div>
     </div>
 
@@ -96,7 +99,9 @@
     <script src="bower_components/knockout/dist/knockout.js"></script>
     <script src="bower_components/knockout-mapping/build/output/knockout.mapping-latest.js"></script>
     <script src="bower_components/pagerjs/dist/pager.min.js"></script>
+    <script src="lib/lodash.min.js"></script>
     <script src="js/customBindings.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/beforeShow.js"></script>
   </body>
 </html>
