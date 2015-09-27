@@ -1,6 +1,12 @@
 var beforeShow = {
   showRatings: (page) => {
     page = page.page;
-    page.async(main.get_ratings(), page.currentId, null, main.isLoading);
+    main.isLoading(true);
+    main.get_tv(() => {
+      main.get_ratings(() => {
+        main.isLoading(false);
+        $('#graph').highcharts(main.graph);        
+      });
+    });
   }
 }

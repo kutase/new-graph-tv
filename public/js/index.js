@@ -1,6 +1,6 @@
 $(function () {
   var main = function () {
-    this.isLoading = ko.observable();
+    this.isLoading = ko.observable(false);
     this.ratings = ko.observableArray([]);
     this.search_tv_text = ko.observable('');
     this.search_tv = () => {
@@ -13,7 +13,8 @@ $(function () {
             data.wikiPage = 'https://en.wikipedia.org/wiki/List_of_'+data.Title.replace(/ +/g, '_')+'_episodes';
             data.imdbEpisodes = 'http://www.imdb.com/title/'+data.imdbID+'/epdate?ref_=ttep_sa_3';
             data = ko.mapping.fromJS(data);
-            this.search_tv_info(data);
+            this.tv_info({});
+            this.tv_info(data);
           } else {
             this.has_tv_info(false);
           }
@@ -23,11 +24,27 @@ $(function () {
         })
       }
     };
+    this.get_tv = (done) => {
+      $.get(`/get_tv/${window.location.hash.split('/')[2]}`)
+      .done((data) => {
+        console.log(data)
+        if (data.Response !== 'False' && data.Type === 'series') {
+          data.wikiPage = 'https://en.wikipedia.org/wiki/List_of_'+data.Title.replace(/ +/g, '_')+'_episodes';
+          data = ko.mapping.fromJS(data);
+          this.tv_info({});
+          this.tv_info(data);
+        }
+        done && done();
+      })
+      .fail(function (err) {
+        console.error(err);
+        done && done(err);
+      })
+    };
     this.see_ratings = () => {
-      pager.navigate(`#!/ratings/${this.search_tv_info().imdbID()}`);        
+      pager.navigate(`#!/ratings/${this.tv_info().imdbID()}`);        
     };
     this.get_ratings = (done) => {
-      var d = $.Deferred();
       $.get(`/get_ratings/${window.location.hash.split('/')[2]}`)
       .done((data) => {
         var graph_info = [];
@@ -111,21 +128,19 @@ $(function () {
             }
           },
           title: {
-            text: 'Series ratings'
+            text: this.tv_info().Title()
           },
           series: graph_info
         };
-
         this.graph = graph;
-        d.resolve();
-        return d;
+        done && done();
       })
       .fail((err) => {
-        d.reject();
         console.error(err);
+        done && done(err);
       })
     };
-    this.search_tv_info = ko.observable({});
+    this.tv_info = ko.observable({});
     this.has_tv_info = ko.observable(false);
     this.tv_info_focus = ko.observable(false);
     this.hover_on_info = ko.observable(false);
@@ -137,7 +152,6 @@ $(function () {
       this.hover_on_info(false);
     };
     this.can_watch_info = ko.computed(() => {
-      console.log(this.hover_on_info())
       return (this.has_tv_info() && this.tv_info_focus()) || this.hover_on_info();
     });
     this.graph = {};

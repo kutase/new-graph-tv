@@ -4,7 +4,7 @@ var customBindings = {
       $(el).highcharts(opts());
     },
     update: (el, opts) => {
-      var chart = $(el).highcharts();
+      var chart = $(el).highcharts(opts());
       chart.redraw();
     }
   }

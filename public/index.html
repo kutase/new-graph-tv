@@ -57,20 +57,20 @@
               <!-- ko if: can_watch_info -->
                 <div class="list-group find-res" data-bind="event: {mouseover: enableHover, mouseout: disableHover}">
                   <div class="list-group-item">
-                    <span class="find-res-title" data-bind="text: search_tv_info().Title"></span>
+                    <span class="find-res-title" data-bind="text: tv_info().Title"></span>
                   </div>
                   <div class="list-group-item">
-                    <strong>imdb id:</strong> <a data-bind="attr: {href: search_tv_info().imdbHref}"><span data-bind="text: search_tv_info().imdbID"></span></a>
+                    <strong>imdb id:</strong> <a data-bind="attr: {href: tv_info().imdbHref}"><span data-bind="text: tv_info().imdbID"></span></a>
                   </div>
                   <div class="list-group-item">
-                    <p class="find-res-desc" data-bind="text: search_tv_info().Plot"></p>
+                    <p class="find-res-desc" data-bind="text: tv_info().Plot"></p>
                   </div>
                   <div class="list-group-item">
-                    <strong>List of episodes:</strong> <a data-bind="attr: {href: search_tv_info().wikiPage}">Wikipedia</a> and <a data-bind="attr: {href: search_tv_info().imdbEpisodes}">imdb</a>
+                    <strong>List of episodes:</strong> <a data-bind="attr: {href: tv_info().wikiPage}">Wikipedia</a> and <a data-bind="attr: {href: tv_info().imdbEpisodes}">imdb</a>
                   </div>
                   <div class="list-group-item">
                     <div class="find-res-img-div">
-                      <p><img class="find-res-img" data-bind="attr: {src: search_tv_info().Poster}"></p>
+                      <p><img class="find-res-img" data-bind="attr: {src: tv_info().Poster}"></p>
                     </div>
                     <p><a data-bind="click: see_ratings" class="btn btn-info " role="button">Watch series rating<i class="fa fa-hand-o-right"></i></a></p>
                   </div>
@@ -84,8 +84,21 @@
 
     <div style="margin-top:51px;">
       <div data-bind="page: {id: 'ratings', title: 'TV Ratings'}" style="display:none;">
-        <!-- ko if: (isLoading() == 'pending') -->
-          <div style="font-size: 100pt;">Loading!</div>
+        <!-- ko if: isLoading() -->
+          <div class="sk-circle" style="margin-top: 200px;">
+            <div class="sk-circle1 sk-child"></div>
+            <div class="sk-circle2 sk-child"></div>
+            <div class="sk-circle3 sk-child"></div>
+            <div class="sk-circle4 sk-child"></div>
+            <div class="sk-circle5 sk-child"></div>
+            <div class="sk-circle6 sk-child"></div>
+            <div class="sk-circle7 sk-child"></div>
+            <div class="sk-circle8 sk-child"></div>
+            <div class="sk-circle9 sk-child"></div>
+            <div class="sk-circle10 sk-child"></div>
+            <div class="sk-circle11 sk-child"></div>
+            <div class="sk-circle12 sk-child"></div>
+          </div>
         <!-- /ko -->
         <div data-bind="page: {id: '?', sourceOnShow: 'ratings.html', beforeShow: beforeShow.showRatings, fx: 'fade'}"></div>
       </div>

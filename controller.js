@@ -9,20 +9,36 @@ var Series = mongoose.model('Series');
 
 exports.find_tv = Promise.coroutine(function *(req, res, next) {
   var name = req.body.name;
+  var id = req.body.id;
   name = name.trim().replace(/ +/g, '+'); // 'true detective' -> 'true+detective'
   try {
     var data = yield request.getAsync(`http://www.omdbapi.com/?t=${name}&type=series`); //http://www.omdbapi.com/?t=true+detective
-    console.log(data[0].body)
   } catch (err) {
-    console.error(err)
+    console.error(err);
+    return next(err);
   }
   data = JSON.parse(data[0].body);
   if (['series', 'mini-series'].indexOf(data.Type) == -1) {
-    console.log(data)
     data = { Response: 'False', text: name };
   }
 
-  res.json(data);
+  return res.json(data);
+})
+
+exports.get_tv = Promise.coroutine(function *(req, res, next) {
+  var id = req.params.id;
+  try {
+    var data = yield request.getAsync(`http://www.omdbapi.com/?i=${id}`); //http://www.omdbapi.com/?t=true+detective
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+  data = JSON.parse(data[0].body);
+  if (['series', 'mini-series'].indexOf(data.Type) == -1) {
+    data = { Response: 'False', text: name };
+  }
+
+  return res.json(data);
 })
 
 exports.get_ratings = Promise.coroutine(function *(req, res, next) {
