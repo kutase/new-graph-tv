@@ -12,6 +12,7 @@ $(function () {
             data.imdbHref = 'http://imdb.com/title/'+data.imdbID;
             data.wikiPage = 'https://en.wikipedia.org/wiki/List_of_'+data.Title.replace(/ +/g, '_')+'_episodes';
             data.imdbEpisodes = 'http://www.imdb.com/title/'+data.imdbID+'/epdate?ref_=ttep_sa_3';
+            data.Poster = window.location.origin+'/get_image/'+data.Poster.slice(7);
             data = ko.mapping.fromJS(data);
             this.tv_info({});
             this.tv_info(data);
@@ -30,6 +31,7 @@ $(function () {
         console.log(data)
         if (data.Response !== 'False' && data.Type === 'series') {
           data.wikiPage = 'https://en.wikipedia.org/wiki/List_of_'+data.Title.replace(/ +/g, '_')+'_episodes';
+          data.Poster = window.location.origin+'/get_image/'+data.Poster.slice(7);
           data = ko.mapping.fromJS(data);
           this.tv_info({});
           this.tv_info(data);
@@ -47,6 +49,7 @@ $(function () {
     this.get_ratings = (done) => {
       $.get(`/get_ratings/${window.location.hash.split('/')[2]}`)
       .done((data) => {
+        console.log(data)
         var graph_info = [];
         var seriesCount = 0;
         data.forEach((item, i) => {
@@ -70,7 +73,8 @@ $(function () {
               id: 's'+(i+1)+'e'+obj.number,
               title: $('<div/>').html(obj.name).text(),
               rating: obj.rating,
-              votes: obj.votes
+              votes: obj.votes,
+              imdbHref: obj.imdbHref
             })
           });
           var N = item.length;
@@ -112,9 +116,24 @@ $(function () {
           //   min: 7,
           //   max: 10
           // },
+          plotOptions: {
+            series: {
+              cursor: 'pointer',
+              point: {
+                events: {
+                  click: function (e) {
+                    window.open(this.options.imdbHref, '_blank')
+                  }
+                }
+              },
+              marker: {
+                  lineWidth: 1
+              }
+            }
+          },
           tooltip: {
             useHTML: true,
-            formatter: function() {
+            formatter: function () {
               if (this.series.options.type === "scatter") {
                 return [
                   "<b>", this.point.id, "</b>", "<br>",

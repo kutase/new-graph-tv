@@ -3,7 +3,8 @@
 var Promise = require('bluebird'),
     request = Promise.promisifyAll(require('request')),
     cheerio = require('cheerio'),
-    mongoose = Promise.promisifyAll(require('mongoose'));
+    mongoose = Promise.promisifyAll(require('mongoose')),
+    http = require('http');
 
 var Series = mongoose.model('Series');
 
@@ -62,12 +63,14 @@ exports.get_ratings = Promise.coroutine(function *(req, res, next) {
         var items = $(this).find('td');
         ratings.push({
           number: $(items[0]).text(),
+          imdbHref: `http://www.imdb.com${$(items[1]).find('a').attr('href')}`,
           name: $(items[1]).text(),
           rating: $(items[2]).text(),
           votes: $(items[3]).text()
         })
       }
     });
+    console.log(ratings, ratings[0])
 
     ratings = yield Series.createAsync({seriesId: imdbId, ratings: ratings});
   }

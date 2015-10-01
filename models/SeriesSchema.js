@@ -7,6 +7,7 @@ var SeriesSchema = new mongoose.Schema({
     number: String,
     name: String,
     rating: String,
+    imdbHref: String,
     votes: String
   }]
 });

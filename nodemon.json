@@ -1,6 +1,6 @@
 {
   "ignore": ["node_modules", "public"],
   "execMap": {
-    "js": "node server.js"
+    "js": "node"
   }
 }

@@ -13,6 +13,7 @@ const PORT = 1337;
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use('/get_image', require('iproxy'));
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
